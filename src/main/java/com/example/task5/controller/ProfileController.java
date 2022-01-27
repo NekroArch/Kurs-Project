@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -103,7 +104,7 @@ public class ProfileController {
 
     @PostMapping(value = "/createItem")
     public ModelAndView createItem(@RequestBody ArrayList<CreateItemDto> createItemDto){
-        createItemDto.forEach(x -> itemService.createItem(x.getName(),x.getCollectionId(), Arrays.stream(x.getTagName().split(",")).toList()));
+        createItemDto.forEach(x -> itemService.createItem(x.getName(),x.getCollectionId(), Arrays.stream(x.getTagName().split(",")).collect(Collectors.toList())));
         return new ModelAndView("profile_page");
     }
 
