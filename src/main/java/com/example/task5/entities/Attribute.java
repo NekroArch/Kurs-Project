@@ -25,9 +25,6 @@ public class Attribute extends AbstractEntity{
     @Column(name = "type")
     private String type;
 
-    @Column(name = "value")
-    private String value;
-
     @ManyToOne
     @JoinColumn(name = "collection_id")
     private Collection attributeInCollection;

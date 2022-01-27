@@ -33,17 +33,9 @@ public class CollectionServiceImpl implements CollectionService {
                         x.getName(),
                         x.getDescription(),
                         x.getTopic(),
-                        x.getItems().stream()
-                                .map(z -> new ItemDto(z.getName(), z.getTags().stream()
-                                        .map(c -> new TagDto(c.getName()))
-                                        .collect(toList()),
-                                        z.getAttributesType().stream()
-                                                //.map(v -> v.getValue())
-                                .collect(toList()),
-                        x.getAttributes().stream()
-                                .map(v -> new AttributeTypeDto(v.getName(), v.getType()))
-                                .collect(Collectors.toList())))
-                .collect(toList()));
+                        x.getItems().stream().map(z -> new ItemDto(z.getName(), z.getTags().stream().map(c -> new TagDto(c.getName())).collect(toList()))).collect(toList()),
+                        x.getAttributes().stream().map(v -> new AttributeTypeDto(v.getName(), v.getType())).collect(Collectors.toList())))
+                .collect(toList());
     }
 
     @Transactional
