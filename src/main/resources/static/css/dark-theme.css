@@ -1,0 +1,59 @@
+body, button#nameBtn, button#collectionNameBtn{
+    color: #ffffff;
+    background: #121212;
+}
+nav{
+    background: #171717;
+}
+.nav-link{
+    color: #E5F2E5;
+}
+button#btnTheme{
+    background: #171717;
+    color: #E5F2E5;
+}
+.navbar-toggler-icon{
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+.dropdown-menu{
+    background-color: #171717;
+}
+.dropdown-item{
+    color: #E5F2E5;
+}
+
+.input{
+    color: #ffffff;
+}
+
+.form-control{
+    background: #1C1C1C;
+    border: none;
+}
+
+.container{
+    margin-top: 50px;
+    width: 500px;
+}
+
+.form-signin-heading{
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.table{
+    margin-top: 50px;
+}
+
+.modal-content{
+    background-color: #171717;
+}
+
+
+#temp{
+    display: none;
+}
+
+.table{
+    color: #ffffff;
+}

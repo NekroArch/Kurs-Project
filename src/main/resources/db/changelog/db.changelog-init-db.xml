@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="vlad" id="1">
+        <createTable tableName="task_users">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="mail" type="VARCHAR(255)"/>
+            <column name="login_date" type="timestamp"/>
+            <column name="status" type="bool"/>
+        </createTable>
+        <createTable tableName="role">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+        <createTable tableName="user_role">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints foreignKeyName="fk_user_role" referencedTableName="task_users" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+            <column name="role_id" type="int">
+                <constraints foreignKeyName="fk_role_user" referencedTableName="role" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="collection">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="varchar(255)"/>
+            <column name="topic" type="varchar(255)"/>
+            <column name="image_url" type="varchar(255)"/>
+            <column name="user_id" type="int">
+                <constraints foreignKeyName="fk_collection_user" referencedTableName="task_users" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="item">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="collection_id" type="int">
+                <constraints foreignKeyName="fk_item_collection" referencedTableName="collection" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="comments">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="text" type="varchar(255)"/>
+            <column name="last_update_date" type="timestamp"/>
+            <column name="item_id" type="int">
+                <constraints foreignKeyName="fk_comment_item" referencedTableName="item" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="attribute">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="type" type="varchar(255)"/>
+            <column name="collection_id" type="int">
+                <constraints foreignKeyName="fk_attribute_collection" referencedTableName="collection" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="item_attribute">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="value" type="varchar(255)"/>
+            <column name="item_id" type="int">
+                <constraints foreignKeyName="fk_item_attribute" referencedTableName="item" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+            <column name="attribute_id" type="int">
+                <constraints foreignKeyName="fk_item_attribute_attribute" referencedTableName="attribute" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="tag">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="tag_item">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="item_id" type="int">
+                <constraints foreignKeyName="fk_item_tag_item" referencedTableName="item" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+            <column name="tag_id" type="int">
+                <constraints foreignKeyName="fk_tag_tag_item" referencedTableName="tag" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="like">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints foreignKeyName="fk_user_like" referencedTableName="task_users" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+            <column name="item_id" type="int">
+                <constraints foreignKeyName="fk_item_like" referencedTableName="item" referencedColumnNames="id"
+                             nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

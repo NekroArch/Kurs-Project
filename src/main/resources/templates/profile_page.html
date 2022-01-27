@@ -1,0 +1,246 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+
+<head>
+  <title tiles:fragment="title">Profile</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" id="theme-link">
+</head>
+
+<body onload="switchBtnColor()">
+  <nav class="navbar navbar-expand-sm">
+    <button type="submit" id="btnTheme" onClick="applyTheme(), switchBtnColor()" class="btn-sm btn">Dark</button>
+
+    <ul class="nav navbar-nav ml-sm-auto">
+      <button type="submit" onClick="checkedAll(0)" class="btn-sm btn-outline-primary btn mr-sm-2">Select all</button>
+      <button type="submit" onClick="checkedAll(1)" class="btn-sm btn-outline-primary btn mr-sm-2">Remove selection
+      </button>
+      <button type="submit" data-toggle="modal" data-target="#exampleModal"
+        class="btn-sm btn-outline-warning btn mr-sm-2">Create collection</button>
+      <button type="submit" onClick="deleteCollection()" class="btn-sm btn-outline-danger btn mr-sm-2">Delete</button>
+    </ul>
+
+    <ul class="nav navbar-nav ml-sm-auto">
+      <a class="nav-link dropdown-toggle" href="#" sid="navbarDropdownMenuLink" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false" th:utext="${userName.name}" id="userName">
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+        <a class="dropdown-item" href="#">Profile</a>
+        <a class="dropdown-item" href="#">Ru</a>
+        <a class="dropdown-item" th:if="${userName.role == '[ROLE_ADMIN]'}" href="/admin">Admin Panel</a>
+        <a class="dropdown-item" href="/logout">Log out</a>
+      </div>
+    </ul>
+  </nav>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form id="collectionContext">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="recipient-name" placeholder="Name">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Description:</label>
+              <input type="text" class="form-control" id="recipient-name" placeholder="Description">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Topic:</label>
+              <input type="text" class="form-control" id="recipient-name" placeholder="Topic">
+            </div>
+            <div class="form-group cheakbox">
+              <label>
+                <input id="addAttribute" type="checkbox"> Add Attribute for item</label>
+            </div>
+            <div id="temp" class="form-group">
+
+              <select class="form-control mt-4 attributeType">
+                <option hidden>Attribute</option>
+                <option>Number</option>
+                <option>Comments</option>
+                <option>String</option>
+                <option>Date</option>
+              </select>
+
+              <input type="text" class="form-control mt-3 attributeName" id="recipient-name">
+
+              <select class="form-control mt-4 attributeType">
+                <option hidden>Attribute</option>
+                <option>Number</option>
+                <option>Comments</option>
+                <option>String</option>
+                <option>Date</option>
+              </select>
+
+              <input type="text" class="form-control mt-3 attributeName" id="recipient-name">
+
+              <select class="form-control mt-4 attributeType">
+                <option hidden>Attribute</option>
+                <option>Number</option>
+                <option>Comments</option>
+                <option>String</option>
+                <option>Date</option>
+              </select>
+
+              <input type="text" class="form-control mt-3 attributeName" id="recipient-name">
+
+            </div>
+
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-primary" onClick="createAttribute()">Create</button>
+          <button type="button" class="btn btn-outline-primary" onClick="createCollection()">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div tiles:fragment="content">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Topic</th>
+          <th scope="col">Items</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody id="table">
+        <tr th:each="collection : ${collectionDto}">
+
+          <td><input type="checkbox"></td>
+          <td>
+            <button class="btn " id="collectionNameBtn" th:utext="${collection.name}" data-toggle="modal"
+              data-target="#itemModel"></button>
+
+            <div class="attributeContext" th:each="attribute : ${collection.attributes}">
+              <div class="attributeName" th:utext="${attribute.attributeName}" hidden></div>
+              <div class="attributeType" th:utext="${attribute.attributeType}" hidden></div>
+            </div>
+
+            <div class="modal fade" id="itemModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <form id="itemModalContext">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="recipient-name" placeholder="Name">
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Tags:</label>
+                        <input type="text" class="form-control" id="tagName" placeholder="Tags">
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label" id="textName" hidden></label>
+                        <input type="text" class="form-control" id="text" hidden>
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label" id="dateName" hidden></label>
+                        <input type="text" class="form-control" id="date" hidden>
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label" id="nuberName" hidden></label>
+                        <input type="text" class="form-control" id="number"  hidden>
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label" id="commentsName" hidden>Comments</label>
+                        <input type="text" class="form-control" id="comments" hidden>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-primary" onClick="createItem()">Create</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div th:utext="${collection.description}"></div>
+          </td>
+          <td>
+            <div th:utext="${collection.topic}"></div>
+          </td>
+          <td>
+            <a class="nav-link dropdown-toggle" href="#" sid="navbarDropdownMenuLink" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">Item</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="text">
+
+              <button class="dropdown-item" href="#" th:each="item : ${collection.items}" data-toggle="modal"
+                data-target="#tagModel" id="itemNameBtn">
+                <div class="itemName" th:utext="${item.name}"></div>
+                <div class="tags" th:each="tag : ${item.tags}" th:utext="${tag.name}" hidden></div>
+                <div class="attributeContext" th:each="attribute : ${collection.attributes}"hidden>
+                  <div class="attributeName" th:utext="${attribute.attributeName}"></div>
+                  <div class="attributeType" th:utext="${attribute.attributeType}"></div>
+                </div>
+              </button>
+            </div>
+
+            <div class="modal fade" id="tagModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <form id="itemModalContext">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Item name:</label>
+                        <label for="recipient-name" class="col-form-label" name="itemName"></label>
+                        <input type="text" class="form-control" id="nameLabel" hidden>
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Tags:</label>
+                        <label for="recipient-name" class="col-form-label" name="tags"></label>
+                        <input type="text" class="form-control" id="TagsLabel" hidden>
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label hi" id="dateName" hidden></label>
+                        <input type="text" class="form-control" id="dateInput" hidden>
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label" id="textAria" hidden></label>
+                      </div>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label" id="text" hidden></label>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="$(this).find('form').trigger('reset');">Close</button>
+                    <button type="button" class="btn btn-outline-primary" onClick="createItem()">Create</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </td>
+          <td>
+            <div th:utext="${collection.id}" style="display: none;"></div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script th:src="@{/js/mainjs.js}"></script>
+  <script th:src="@{/js/inputeJs.js}"></script>
+  <script th:src="@{/js/profileJs.js}"></script>
+</body>
+
+</html>
