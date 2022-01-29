@@ -12,7 +12,7 @@ public class CreateItemDto {
     private String name;
     private int collectionId;
     private String tagName;
-
+    private List<ItemAttributeDto> itemAttributes;
 
 
     @Override

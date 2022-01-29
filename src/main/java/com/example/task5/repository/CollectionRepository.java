@@ -19,7 +19,7 @@ public interface CollectionRepository extends JpaRepository<Collection, Integer>
     List<Collection> getAllCollection();
 
     @Query(value = "FROM Collection WHERE user_id =:user_id")
-    @EntityGraph(attributePaths = {"items","attributes"})
+    @EntityGraph(attributePaths = {"items","attributes","items.itemAttributes"})
     List<Collection> getCollectionByUserId(@Param(value = "user_id") int userId);
 
     @Modifying

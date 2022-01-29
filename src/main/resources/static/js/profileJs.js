@@ -31,7 +31,8 @@ let collectionId = 0;
 $(function () {
   $('button[id="collectionNameBtn"]').click(function () {
     let table = document.getElementById('table');
-    let attributeContext = this.getElementsByClassName('attributeContext');;
+    let attributeContext;
+    let attributeContexts = this.getElementsByClassName('attributeContext');
     let attributeName = [];
     let attributeType = [];
 
@@ -39,7 +40,7 @@ $(function () {
       let row = table.rows[i];
       if (row.cells[1].getElementsByTagName('button')[0].innerText == this.innerText) {
         collectionId = row.cells[5].getElementsByTagName('div')[0].innerText;
-        
+        attributeContext = row.cells[1].getElementsByClassName('attributeContext');
       }
     }
     for (let i = 0; i < attributeContext.length; i++) {

@@ -13,7 +13,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     @Modifying
     @Query(value = "INSERT INTO item (name, collection_id) VALUES (:name, :collectionId)", nativeQuery = true)
-    void createCollection(@Param(value = "name") String name,
+    void createItem(@Param(value = "name") String name,
                           @Param(value = "collectionId") int collectionId);
 
     @Query(value = "SELECT id FROM item WHERE name=:name", nativeQuery = true)

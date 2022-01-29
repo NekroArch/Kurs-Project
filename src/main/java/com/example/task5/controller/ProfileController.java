@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -104,7 +103,7 @@ public class ProfileController {
 
     @PostMapping(value = "/createItem")
     public ModelAndView createItem(@RequestBody ArrayList<CreateItemDto> createItemDto){
-        createItemDto.forEach(x -> itemService.createItem(x.getName(),x.getCollectionId(), Arrays.stream(x.getTagName().split(",")).collect(Collectors.toList())));
+        createItemDto.forEach(x -> itemService.createItem(x.getName(),x.getCollectionId(), Arrays.stream(x.getTagName().split(",")).collect(Collectors.toList()), x.getItemAttributes()));
         return new ModelAndView("profile_page");
     }
 
