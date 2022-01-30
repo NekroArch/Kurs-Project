@@ -2,7 +2,6 @@ package com.example.task5.service.impl;
 
 import com.example.task5.dto.ItemAttributeDto;
 import com.example.task5.repository.AttributeRepository;
-import com.example.task5.repository.ItemAttributeRepository;
 import com.example.task5.repository.ItemRepository;
 import com.example.task5.repository.TagRepository;
 import com.example.task5.service.ItemService;
@@ -16,13 +15,11 @@ public class ItemServiceImpl implements ItemService {
 
     private ItemRepository itemRepository;
     private TagRepository tagRepository;
-    private ItemAttributeRepository itemAttributeRepository;
     private AttributeRepository attributeRepository;
 
-    public ItemServiceImpl(ItemRepository itemRepository, TagRepository tagRepository, ItemAttributeRepository itemAttributeRepository, AttributeRepository attributeRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, TagRepository tagRepository, AttributeRepository attributeRepository) {
         this.itemRepository = itemRepository;
         this.tagRepository = tagRepository;
-        this.itemAttributeRepository = itemAttributeRepository;
         this.attributeRepository = attributeRepository;
     }
 
