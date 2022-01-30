@@ -36,12 +36,5 @@ public class ItemServiceImpl implements ItemService {
                         itemRepository.findItemIdByName(name),
                         tagRepository.findTagIdByName(x))
                 );
-        itemAttribute.forEach(x->
-                itemAttributeRepository.createItemAttribute(
-                        x.getValue(),
-                        itemRepository.findItemIdByName(name),
-                        attributeRepository.findAttributeIdByName()
-                )
-        );
     }
 }
