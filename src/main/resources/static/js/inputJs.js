@@ -1,4 +1,3 @@
-
 function switchBtnColor(){
     const currentThemee = localStorage.getItem("theme");
 
