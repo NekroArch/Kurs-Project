@@ -32,7 +32,7 @@ function changeStatus(){
          let row = table.rows[i];
            if(row.cells[0].getElementsByTagName('input')[0].checked){
             nameAndStatus.push({
-                "name":row.cells[1].getElementsByTagName('div')[0].innerText,
+                "name":row.cells[1].getElementsByTagName('button')[0].innerText,
                 "status":row.cells[3].getElementsByTagName('div')[0].innerText
             });
           }
@@ -46,11 +46,11 @@ function deleteUser(){
    for(let i = 0; i < table.rows.length; i++){
      let row = table.rows[i];
        if(row.cells[0].getElementsByTagName('input')[0].checked){
-        name.push(row.cells[1].getElementsByTagName('div')[0].innerText);
+        name.push(row.cells[1].getElementsByTagName('button')[0].innerText);
       }
    }
 
-   deleteUser(JSON.stringify(name));
+   postDeleteUser(JSON.stringify(name));
 };
 
 function changeRole(){
@@ -62,12 +62,12 @@ function changeRole(){
     let row = table.rows[i];  
     if(row.cells[0].getElementsByTagName('input')[0].checked && row.cells[4].getElementsByTagName('div')[0].innerText == "ROLE_ADMIN"){
       nameAndRole.push({
-        "name":row.cells[1].getElementsByTagName('div')[0].innerText,
+        "name":row.cells[1].getElementsByTagName('button')[0].innerText,
         "roleId":2
       });
     }else if (row.cells[0].getElementsByTagName('input')[0].checked && row.cells[4].getElementsByTagName('div')[0].innerText == "ROLE_USER"){
       nameAndRole.push({
-        "name":row.cells[1].getElementsByTagName('div')[0].innerText,
+        "name":row.cells[1].getElementsByTagName('button')[0].innerText,
         "roleId":1
       });
     }
@@ -80,9 +80,9 @@ function postUser(data){
   window.location = "/profile/userCollection?name=" + data;
 };
 
-function deleteUser(data){
+function postDeleteUser(data){
    let xhr = new XMLHttpRequest();
-   let url = "/admin/deletes"
+   let url = "/admin/delete"
 
    xhr.open("DELETE", url, true);
 

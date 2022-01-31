@@ -35,7 +35,7 @@ public class AdminController {
         return modelAndView.addObject("userDto", userService.getAllUsers());
     }
 
-    @DeleteMapping(value = "/deletes")
+    @DeleteMapping(value = "/delete")
     public ModelAndView deleteUser(@RequestBody ArrayList<String> loginDto) {
         loginDto.forEach(x -> userService.deleteUser(x));
         loginDto.stream()

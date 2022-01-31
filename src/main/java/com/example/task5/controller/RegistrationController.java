@@ -36,7 +36,7 @@ public class RegistrationController {
                 true);
 
         userService.setRole(userDto.getName(), DEFAULT_USER_ROLE);
-        return new ModelAndView("main_page");
+        return new ModelAndView("login_page");
     }
 
 }
