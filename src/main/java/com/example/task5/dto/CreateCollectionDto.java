@@ -9,6 +9,7 @@ import java.util.List;
 @Setter
 public class CreateCollectionDto {
     private String name;
+    private String imageUrl;
     private String description;
     private String topic;
     private String userName;

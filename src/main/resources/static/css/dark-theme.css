@@ -49,11 +49,45 @@ button#btnTheme{
     background-color: #171717;
 }
 
+#tableCheckbox, #tableNameButton, #itemButton, #topic, #description{
+    vertical-align: middle;
+}
+
+#imageUrl{
+    width: 100px;
+    height: 100px;
+}
+
+.image{
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+}
+
+.imagePrev{
+    margin-top: 2%;
+    margin-left: 8%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.imageText{
+    margin-top: 2%;
+    margin-left: 6%;
+}
 
 #temp{
     display: none;
 }
+#tableCheckbox, #tableNameButton, #itemButton, #topic, #description{
+    vertical-align: middle;
+}
 
+
+#imageUrl{
+    width: 100px;
+    height: 100px;
+}
 .table{
     color: #ffffff;
 }

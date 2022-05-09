@@ -2,6 +2,7 @@ package com.example.task5.controller;
 
 import com.example.task5.dto.UserDto;
 import com.example.task5.repository.UserRepository;
+import com.example.task5.service.CollectionService;
 import com.example.task5.service.UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,29 +20,30 @@ import java.util.stream.Collectors;
 public class MainController {
 
     private UserService userService;
+    private CollectionService collectionService;
 
-    public MainController(UserService userService) {
+    public MainController(UserService userService, CollectionService collectionService) {
         this.userService = userService;
+        this.collectionService = collectionService;
     }
 
     @GetMapping(value = "/")
     public ModelAndView mainPage(){
         ModelAndView modelAndView = new ModelAndView("main_page");
+        modelAndView.addObject("collectionImg", collectionService.getCollectionImg());
         if(Objects.equals(SecurityContextHolder.getContext().getAuthentication().getName(), "anonymousUser")){
             return modelAndView.addObject("anonymousUser", "anonymousUser");
 
         }else if("[ROLE_USER]".equals(userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName())
                 .getRoles().stream()
-                .map(x -> new SimpleGrantedAuthority(x.getName()))
-                .collect(Collectors.toList())
+                .map(x -> new SimpleGrantedAuthority(x.getName())).toList()
                 .toString())){
 
             return modelAndView.addObject("userName",
                     new UserDto(SecurityContextHolder.getContext().getAuthentication().getName(),
                             userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName())
                                     .getRoles().stream()
-                                    .map(x -> new SimpleGrantedAuthority(x.getName()))
-                                    .collect(Collectors.toList())
+                                    .map(x -> new SimpleGrantedAuthority(x.getName())).toList()
                                     .toString()));
 
         }else{
@@ -50,8 +52,7 @@ public class MainController {
                             SecurityContextHolder.getContext().getAuthentication().getName(),
                             userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName())
                                     .getRoles().stream()
-                                    .map(x -> new SimpleGrantedAuthority(x.getName()))
-                                    .collect(Collectors.toList())
+                                    .map(x -> new SimpleGrantedAuthority(x.getName())).toList()
                                     .toString()));
         }
     }

@@ -103,7 +103,7 @@ public class ProfileController {
 
     @PostMapping(value = "/createItem")
     public ModelAndView createItem(@RequestBody ArrayList<CreateItemDto> createItemDto){
-        createItemDto.forEach(x -> itemService.createItem(x.getName(),x.getCollectionId(), Arrays.stream(x.getTagName().split(",")).collect(Collectors.toList()), x.getItemAttributes()));
+        createItemDto.forEach(x -> itemService.createItem(x.getName(), x.getCollectionId(), x.getTagName(), x.getItemAttributeNameDto(), x.getItemAttributeValueDto()));
         return new ModelAndView("profile_page");
     }
 

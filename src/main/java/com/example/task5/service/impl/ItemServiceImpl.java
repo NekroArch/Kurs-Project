@@ -1,10 +1,10 @@
 package com.example.task5.service.impl;
 
-import com.example.task5.dto.ItemAttributeDto;
 import com.example.task5.repository.AttributeRepository;
 import com.example.task5.repository.ItemRepository;
 import com.example.task5.repository.TagRepository;
 import com.example.task5.service.ItemService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,13 +25,14 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
     @Override
-    public void createItem(String name, int collectionId, List<String> tagName, List<ItemAttributeDto> itemAttribute) {
+    public void createItem(String name, int collectionId, String tagName, List<String> itemAttributeNameDto, List<String> itemAttributeValueDto) {
         itemRepository.createItem(name, collectionId);
-        tagName.forEach(x->tagRepository.createTag(x));
-        tagName.forEach(x->
-                tagRepository.setTagItem(
-                        itemRepository.findItemIdByName(name),
-                        tagRepository.findTagIdByName(x))
-                );
+        tagRepository.createTag(tagName);
+        tagRepository.setTagItem(itemRepository.findItemIdByName(name),  tagRepository.findTagIdByName(tagName));
+        for(int i = 0; i < itemAttributeValueDto.size(); i++){
+            if(itemAttributeNameDto.get(i) != null && itemAttributeValueDto.get(i) != null) {
+                attributeRepository.addAttributeValue(itemAttributeValueDto.get(i), itemRepository.findItemIdByName(name), attributeRepository.findAttributeIdByName(itemAttributeNameDto.get(i)));
+            }
+        }
     }
 }

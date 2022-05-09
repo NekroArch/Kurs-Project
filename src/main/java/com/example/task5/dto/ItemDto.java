@@ -12,14 +12,14 @@ public class ItemDto {
     private String name;
     private int collectionId;
     private List<TagDto> tags;
-    private List<ItemAttributeDto> attributes;
+    private List<ItemAttributeServiceDto> attributes;
 
     public ItemDto(String name, List<TagDto> tags) {
         this.name = name;
         this.tags = tags;
     }
 
-    public ItemDto(String name, List<TagDto> tags, List<ItemAttributeDto> attributes) {
+    public ItemDto(String name, List<TagDto> tags, List<ItemAttributeServiceDto> attributes) {
         this.name = name;
         this.tags = tags;
         this.attributes = attributes;

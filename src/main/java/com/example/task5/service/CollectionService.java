@@ -1,8 +1,8 @@
 package com.example.task5.service;
 
 import com.example.task5.dto.CollectionDto;
+import com.example.task5.dto.CollectionImgDto;
 import com.example.task5.dto.CreateCollectionDto;
-import com.example.task5.entities.Collection;
 
 import java.util.List;
 
@@ -15,4 +15,6 @@ public interface CollectionService {
     int findCollectionIdByName(String name);
 
     void save(CreateCollectionDto collectionDto);
+
+    List<CollectionImgDto> getCollectionImg();
 }

@@ -40,15 +40,19 @@
           <form id="collectionContext">
             <div class="form-group">
               <label for="recipient-name" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" id="recipient-name" placeholder="Name">
+              <input type="text" class="form-control" id="add_Name" placeholder="Name">
             </div>
             <div class="form-group">
-              <label for="message-text" class="col-form-label">Description:</label>
-              <input type="text" class="form-control" id="recipient-name" placeholder="Description">
+              <label for="recipient-name" class="col-form-label">Url:</label>
+              <input type="text" class="form-control" id="add_url" placeholder="Url">
             </div>
             <div class="form-group">
-              <label for="message-text" class="col-form-label">Topic:</label>
-              <input type="text" class="form-control" id="recipient-name" placeholder="Topic">
+              <label for="recipient-name" class="col-form-label">Description:</label>
+              <input type="text" class="form-control" id="add_description" placeholder="Description">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Topic:</label>
+              <input type="text" class="form-control" id="add_opic" placeholder="Topic">
             </div>
             <div class="form-group cheakbox">
               <label>
@@ -107,6 +111,7 @@
           <th scope="col"></th>
 
           <th scope="col">Name</th>
+          <th scope="col">Image</th>
           <th scope="col">Description</th>
           <th scope="col">Topic</th>
           <th scope="col">Items</th>
@@ -116,46 +121,24 @@
       <tbody id="table">
         <tr th:each="collection : ${collectionDto}">
 
-          <td><input type="checkbox"></td>
-          <td>
+          <td id="tableCheckbox"><input type="checkbox"></td>
+          <td id="tableNameButton">
             <button class="btn " id="collectionNameBtn" th:utext="${collection.name}" data-toggle="modal"
-              data-target="#itemModel"></button>
+              data-target="#itemModel1"></button>
 
             <div class="attributeContext" th:each="attribute : ${collection.attributes}">
               <div class="attributeName" th:utext="${attribute.attributeName}" hidden></div>
               <div class="attributeType" th:utext="${attribute.attributeType}" hidden></div>
             </div>
 
-            <div class="modal fade" id="itemModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="itemModel1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-body">
-                    <form id="itemModalContext">
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Name:</label>
-                        <input type="text" class="form-control" id="recipient-name" placeholder="Name">
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Tags:</label>
-                        <input type="text" class="form-control" id="tagName" placeholder="Tags">
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label" id="textName" hidden></label>
-                        <input type="text" class="form-control" id="text" hidden>
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label" id="dateName" hidden></label>
-                        <input type="text" class="form-control" id="date" hidden>
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label" id="nuberName" hidden></label>
-                        <input type="text" class="form-control" id="number"  hidden>
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label" id="commentsName" hidden>Comments</label>
-                        <input type="text" class="form-control" id="comments" hidden>
-                      </div>
+                    <form id="itemModalContext1">
+
+
                     </form>
                   </div>
                   <div class="modal-footer">
@@ -167,13 +150,16 @@
             </div>
           </td>
           <td>
-            <div th:utext="${collection.description}"></div>
+            <img id="imageUrl" th:src="${collection.imageUrl}">
           </td>
-          <td>
-            <div th:utext="${collection.topic}"></div>
+          <td id="description">
+            <div  th:utext="${collection.description}"></div>
           </td>
-          <td>
-            <a class="nav-link dropdown-toggle" href="#" sid="navbarDropdownMenuLink" data-toggle="dropdown"
+          <td id="topic">
+            <div  th:utext="${collection.topic}"></div>
+          </td>
+          <td id="itemButton">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">Item</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="text">
 
@@ -181,9 +167,14 @@
                 data-target="#tagModel" id="itemNameBtn">
                 <div class="itemName" th:utext="${item.name}"></div>
                 <div class="tags" th:each="tag : ${item.tags}" th:utext="${tag.name}" hidden></div>
-                <div class="attributeContext" th:each="attribute : ${collection.attributes}"hidden>
-                  <div class="attributeName" th:utext="${attribute.attributeName}"></div>
-                  <div class="attributeType" th:utext="${attribute.attributeType}"></div>
+                <div class="itemAttribute" th:each="itemAttribute: ${item.attributes}" hidden>
+                  <div class="attributeContext" th:each="attribute : ${collection.attributes}"hidden>
+
+                    <div class="ItemAttributeMerg" th:if="${itemAttribute.attribute_id == attribute.id}">
+                      <div class="attributeValue" th:utext="${itemAttribute.value}"></div>
+                      <div class="attributeName" th:utext="${attribute.attributeName}"></div>
+                    </div>
+                  </div>
                 </div>
               </button>
             </div>
@@ -193,32 +184,11 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-body">
-                    <form id="itemModalContext">
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Item name:</label>
-                        <label for="recipient-name" class="col-form-label" name="itemName"></label>
-                        <input type="text" class="form-control" id="nameLabel" hidden>
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Tags:</label>
-                        <label for="recipient-name" class="col-form-label" name="tags"></label>
-                        <input type="text" class="form-control" id="TagsLabel" hidden>
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label hi" id="dateName" hidden></label>
-                        <input type="text" class="form-control" id="dateInput" hidden>
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label" id="textAria" hidden></label>
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label" id="text" hidden></label>
-                      </div>
+                    <form id="itemModalContext2">
                     </form>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="$(this).find('form').trigger('reset');">Close</button>
-                    <button type="button" class="btn btn-outline-primary" onClick="createItem()">Create</button>
                   </div>
                 </div>
               </div>

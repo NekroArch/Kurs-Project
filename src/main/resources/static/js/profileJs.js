@@ -1,22 +1,3 @@
-$('#itemModel').on('hidden.bs.modal', function () {
-  $(this).find('form').trigger('reset');
-  let type = ['text', 'date', 'number', 'comment'];
-  for(let i = 0; i < 3; i++){
-    document.getElementById(type[i]).hidden = true;
-    document.getElementById(type[i] + 'Name').hidden = true;
-    document.getElementById(type[i] + 'Name').innerText = '';
-  }
-});
-
-$('#tagModel').on('hidden.bs.modal', function () {
-  $(this).find('form').trigger('reset');
-  let type = ['text', 'date', 'number', 'comment'];
-  for(let i = 0; i < 3; i++){
-    document.getElementById(type[i]).hidden = true;
-    document.getElementById(type[i] + 'Name').hidden = true;
-    document.getElementById(type[i] + 'Name').innerText = '';
-  }
-});
 
 $('#addAttribute').change(function () {
   if (this.checked != true) {
@@ -39,7 +20,7 @@ $(function () {
     for (let i = 0; i < table.rows.length; i++) {
       let row = table.rows[i];
       if (row.cells[1].getElementsByTagName('button')[0].innerText == this.innerText) {
-        collectionId = row.cells[5].getElementsByTagName('div')[0].innerText;
+        collectionId = row.cells[6].getElementsByTagName('div')[0].innerText;
         attributeContext = row.cells[1].getElementsByClassName('attributeContext');
       }
     }
@@ -48,17 +29,40 @@ $(function () {
       attributeType[i] = attributeContext[i].children[1].innerText.toLowerCase();
     }
 
-    let type = ['text', 'date', 'number', 'comment'];
+    let er
+    let paru
 
-    for (let i = 0; i < attributeType.length; i++) {
-      for (let j = 0; j < type.length; j++) {
-        if (attributeType[i] == type[j]) {
-          document.getElementById(attributeType[i]).hidden = false;
-          document.getElementById(attributeType[i] + 'Name').hidden = false;
-          document.getElementById(attributeType[i] + 'Name').innerText = attributeName[j];
-        }
-      }
+    er = document.getElementById("itemModalContext1");
+
+
+    paru = document.createElement("div");
+    paru.className = "form-group";
+    paru.innerHTML =
+        "<label for='recipient-name' class='col-form-label'>" + "Name:" + "</label>" +
+        "<input type='text' class='form-control' id='recipient-name' placeholder='Name''>";
+    er.appendChild(paru);
+
+    paru = document.createElement("div");
+    paru.className = "form-group";
+    paru.innerHTML =
+        "<label for='recipient-name' class='col-form-label'>" + "Tags:" + "</label>" +
+        "<input type='text' class='form-control' id='tagName' placeholder='Tags'>";
+    er.appendChild(paru);
+
+    for (let i =0; i < attributeContext.length; i++){
+
+      paru = document.createElement("div");
+      paru.className = "form-group";
+      paru.innerHTML =
+          "<label for='recipient-name' class='col-form-label attibuteCreateName'>" + attributeName[i] + "</label>" +
+          "<input type='text' class='form-control attributeCreateValue'>";
+
+      er = document.getElementById("itemModalContext1");
+      er.appendChild(paru);
+
+
     }
+    switchBtnColor();
   });
 });
 
@@ -68,30 +72,45 @@ $(function () {
       return obj.innerText;
     });
 
-    let attributeContext = this.getElementsByClassName('attributeContext');
+    let ItemAttributeMerg = this.getElementsByClassName('ItemAttributeMerg');
+    let attributeValue = [];
     let attributeName = [];
-    let attributeType = [];
 
-    tags = tags.join(', ');
-    document.querySelector('#tagModel [name="itemName"]').innerText = this.getElementsByClassName('itemName')[0].innerText;
-    document.querySelector('#tagModel [name="tags"]').innerText = tags;
    
-    for (let i = 0; i < attributeContext.length; i++) {
-      attributeName[i] = attributeContext[i].children[0].innerText;
-      attributeType[i] = attributeContext[i].children[1].innerText.toLowerCase();
+    for (let i = 0; i < ItemAttributeMerg.length; i++) {
+      attributeValue[i] = ItemAttributeMerg[i].children[0].innerText;
+      attributeName[i] = ItemAttributeMerg[i].children[1].innerText;
     }
 
-    let type = ['text', 'date', 'number', 'comment'];
+    let er
+    let paru
 
-    for (let i = 0; i < attributeType.length; i++) {
-      for (let j = 0; j < type.length; j++) {
-        if (attributeType[i] == type[j]) {
-          document.getElementById(attributeType[i] + 'Name').hidden = false;
-          document.getElementById(attributeType[i] + 'Name').innerText = attributeName[j];
-        }
-      }
-    }
-    
+    er = document.getElementById("itemModalContext2");
+
+
+    paru = document.createElement("div");
+    paru.className = "form-group";
+    paru.innerHTML =
+        "<label for='recipient-name' class='col-form-label'>" + "Name: " +
+        this.getElementsByClassName('itemName')[0].innerText + "</label>"
+    er.appendChild(paru);
+
+    paru = document.createElement("div");
+    paru.className = "form-group";
+    paru.innerHTML =
+        "<label for='recipient-name' class='col-form-label'>" + "Tags: " + tags + "</label>"
+    er.appendChild(paru);
+
+    for (let i =0; i < attributeName.length; i++) {
+
+      paru = document.createElement("div");
+      paru.className = "form-group";
+      paru.innerHTML =
+          "<label for='recipient-name' class='col-form-label'>" + attributeName[i] + ": " + attributeValue[i] + "</label>"
+
+      er = document.getElementById("itemModalContext2");
+      er.appendChild(paru);
+    };
   });
 });
 
@@ -120,8 +139,7 @@ function createCollection() {
   for (let i = 0; i < 3; i++) {
     if (modalFade.getElementsByClassName("attributeType")[i].value != 'Attribute' && modalFade.getElementsByClassName("attributeName")[i].value != '') {
       attributeContext.push({
-        "attributeName": modalFade.getElementsByClassName("attributeName")[i].value,
-        "attributeType": modalFade.getElementsByClassName("attributeType")[i].value
+        "attributeName": modalFade.getElementsByClassName("attributeName")[i].value
       });
     }
   }
@@ -132,8 +150,9 @@ function createCollection() {
 
     context = {
       "name": modalFade.getElementsByTagName("input")[0].value,
-      "description": modalFade.getElementsByTagName("input")[1].value,
-      "topic": modalFade.getElementsByTagName("input")[2].value,
+      "imageUrl": modalFade.getElementsByTagName("input")[1].value,
+      "description": modalFade.getElementsByTagName("input")[2].value,
+      "topic": modalFade.getElementsByTagName("input")[3].value,
       "userName": localStorage.getItem('user'),
       "attributeContext": attributeContext
     };
@@ -142,8 +161,9 @@ function createCollection() {
 
     context = {
       "name": modalFade.getElementsByTagName("input")[0].value,
-      "description": modalFade.getElementsByTagName("input")[1].value,
-      "topic": modalFade.getElementsByTagName("input")[2].value,
+      "imageUrl": modalFade.getElementsByTagName("input")[1].value,
+      "description": modalFade.getElementsByTagName("input")[2].value,
+      "topic": modalFade.getElementsByTagName("input")[3].value,
       "userName": document.getElementById('userName').innerText,
       "attributeContext": attributeContext
     };
@@ -154,17 +174,43 @@ function createCollection() {
 }
 
 function createItem() {
-  let modalFade = document.getElementById("itemModalContext");
+  let modalFade = document.getElementById("itemModalContext1");
   let itemName = [];
+
+ let attibuteCreateName = modalFade.getElementsByClassName("attibuteCreateName");
+ let attributeCreateValue = modalFade.getElementsByClassName("attributeCreateValue");
+
+
+ let attibuteName = [];
+ let attributeValue = [];
+
+ console.log(attibuteCreateName[0].innerText)
+
+ for(let i = 0; i < attibuteCreateName.length; i++){
+   if(attributeCreateValue[i].value != ""){
+     attibuteName[i] = attibuteCreateName[i].innerText;
+     attributeValue[i] = attributeCreateValue[i].value;
+  }
+ }
 
   itemName.push({
     "name": modalFade.getElementsByTagName("input")[0].value,
     "collectionId": collectionId,
-    "tagName": modalFade.getElementsByTagName("input")[1].value
+    "tagName": modalFade.getElementsByTagName("input")[1].value,
+    "itemAttributeNameDto": attibuteName,
+    "itemAttributeValueDto": attributeValue
   });
 
   postCreateAttribute(JSON.stringify(itemName));
 }
+
+$("#itemModel1").on("hidden.bs.modal", function(){
+  $("#itemModalContext1").empty();
+});
+
+$("#tagModel").on("hidden.bs.modal", function(){
+  $("#itemModalContext2").empty();
+});
 
 
 function deleteCollection() {
@@ -173,7 +219,7 @@ function deleteCollection() {
   for (let i = 0; i < table.rows.length; i++) {
     let row = table.rows[i];
     if (row.cells[0].getElementsByTagName('input')[0].checked) {
-      id.push(row.cells[5].getElementsByTagName('div')[0].innerText);
+      id.push(row.cells[6].getElementsByTagName('div')[0].innerText);
     }
   }
 

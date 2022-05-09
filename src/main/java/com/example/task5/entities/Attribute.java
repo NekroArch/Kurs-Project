@@ -33,4 +33,13 @@ public class Attribute extends AbstractEntity{
         this.name = name;
         this.type = type;
     }
+
+    public Attribute(String name) {
+        this.name = name;
+    }
+
+    public Attribute(String attributeName, Collection collection) {
+        this.name = attributeName;
+        this.attributeInCollection = collection;
+    }
 }

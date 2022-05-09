@@ -28,4 +28,5 @@ public interface CollectionRepository extends JpaRepository<Collection, Integer>
 
     @Query(value = "SELECT id FROM collection WHERE name=:name", nativeQuery = true)
     int findCollectionIdByName(@Param(value = "name") String name);
+
 }

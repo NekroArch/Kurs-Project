@@ -27,10 +27,34 @@ button#btnTheme{
   margin-top: 50px;
 }
 
+.image{
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+}
+.imagePrev{
+  margin-top: 2%;
+  margin-left: 8%;
+}
+
+.imageText{
+  margin-top: 2%;
+  margin-left: 2%;
+}
 #frontId{
   display: none;
 }
 
 #temp{
   display: none;
+}
+
+#tableCheckbox, #tableNameButton, #itemButton, #topic, #description{
+  vertical-align: middle;
+}
+
+
+#imageUrl{
+  width: 100px;
+  height: 100px;
 }
