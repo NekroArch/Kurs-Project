@@ -184,7 +184,6 @@ function createItem() {
  let attibuteName = [];
  let attributeValue = [];
 
- console.log(attibuteCreateName[0].innerText)
 
  for(let i = 0; i < attibuteCreateName.length; i++){
    if(attributeCreateValue[i].value != ""){
@@ -201,7 +200,7 @@ function createItem() {
     "itemAttributeValueDto": attributeValue
   });
 
-  postCreateAttribute(JSON.stringify(itemName));
+  postCreateItem(JSON.stringify(itemName));
 }
 
 $("#itemModel1").on("hidden.bs.modal", function(){
@@ -227,51 +226,62 @@ function deleteCollection() {
 };
 
 function postDeleteCollection(data) {
-  let xhr = new XMLHttpRequest();
-  let url = "/profile/delete"
 
-  xhr.open("DELETE", url, true);
-
-  xhr.setRequestHeader("Content-Type", "application/json")
-
-  xhr.send(data);
-  update();
+  fetch("/profile/deleteCollection",{
+    method: "DELETE",
+    body:data,
+    headers:{"Content-Type": "application/json"},
+  }).then( response => {
+    if ($(".ar:not(:checked)").length === $(".ar").length || response.status === 405 || response.status === 500) {
+      toastr.options.positionClass = "toast-bottom-right";
+      toastr.error("Error");
+      return false;
+    } else if (response.status === 200) {
+      toastr.options.positionClass = "toast-bottom-right";
+      toastr.success("Collection deleted");
+      update();
+    }
+  });
 };
 
 function postCreateCollection(data) {
-  let xhr = new XMLHttpRequest();
-  let url = "/profile/createCollection"
 
-  xhr.open("POST", url, true);
+  fetch("/profile/createCollection",{
+    method: "POST",
+    body:data,
+    headers:{"Content-Type": "application/json"},
+  }).then( response => {
+    if (data.name === undefined || data.description === undefined || data.topic === undefined || response.status === 405 || response.status === 500) {
+      toastr.options.positionClass = "toast-bottom-right";
+      toastr.error("Error");
+      return false;
+    } else if (response.status === 200) {
+      toastr.options.positionClass = "toast-bottom-right";
+      toastr.success("Collection created");
+      update();
+    }
+  });
 
-  xhr.setRequestHeader("Content-Type", "application/json")
-
-  xhr.send(data);
-  update();
 };
 
-function getUser() {
-  let xhr = new XMLHttpRequest();
-  let url = "/profile/userCollection"
+function postCreateItem(data) {
 
-  xhr.open("Get", url, true);
+  fetch("/profile/createItem",{
+    method: "POST",
+    body:data,
+    headers:{"Content-Type": "application/json"},
+  }).then( response => {
+    if (response.status === 405 || response.status === 500){
+      toastr.options.positionClass = "toast-bottom-right";
+      toastr.error("Error");
+      return false;
+    } else if (response.status === 200) {
+      toastr.options.positionClass = "toast-bottom-right";
+      toastr.success("Item added");
+      update();
+    }
+  });
 
-  xhr.setRequestHeader("Content-Type", "application/json")
-
-  xhr.send(data);
-  update();
-};
-
-function postCreateAttribute(data) {
-  let xhr = new XMLHttpRequest();
-  let url = "/profile/createItem"
-
-  xhr.open("POST", url, true);
-
-  xhr.setRequestHeader("Content-Type", "application/json")
-
-  xhr.send(data);
-  update();
 };
 
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -19,41 +20,29 @@ import java.util.stream.Collectors;
 @RestController
 public class MainController {
 
-    private UserService userService;
     private CollectionService collectionService;
 
-    public MainController(UserService userService, CollectionService collectionService) {
-        this.userService = userService;
+    public MainController(CollectionService collectionService) {
         this.collectionService = collectionService;
     }
 
     @GetMapping(value = "/")
-    public ModelAndView mainPage(){
+    public ModelAndView mainPage(HttpServletRequest  request){
         ModelAndView modelAndView = new ModelAndView("main_page");
         modelAndView.addObject("collectionImg", collectionService.getCollectionImg());
         if(Objects.equals(SecurityContextHolder.getContext().getAuthentication().getName(), "anonymousUser")){
             return modelAndView.addObject("anonymousUser", "anonymousUser");
 
-        }else if("[ROLE_USER]".equals(userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName())
-                .getRoles().stream()
-                .map(x -> new SimpleGrantedAuthority(x.getName())).toList()
-                .toString())){
-
-            return modelAndView.addObject("userName",
-                    new UserDto(SecurityContextHolder.getContext().getAuthentication().getName(),
-                            userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName())
-                                    .getRoles().stream()
-                                    .map(x -> new SimpleGrantedAuthority(x.getName())).toList()
-                                    .toString()));
-
+        }else if(request.isUserInRole("ROLE_ADMIN")){
+            return modelAndView.addObject("userName", new UserDto(
+                    SecurityContextHolder.getContext().getAuthentication().getName(),
+                    "ROLE_ADMIN"
+            ));
         }else{
-            return modelAndView.addObject("userName",
-                    new UserDto(
-                            SecurityContextHolder.getContext().getAuthentication().getName(),
-                            userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName())
-                                    .getRoles().stream()
-                                    .map(x -> new SimpleGrantedAuthority(x.getName())).toList()
-                                    .toString()));
+            return modelAndView.addObject("userName", new UserDto(
+                    SecurityContextHolder.getContext().getAuthentication().getName(),
+                    "ROLE_USER"
+            ));
         }
     }
 }

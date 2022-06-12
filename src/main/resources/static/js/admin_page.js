@@ -81,43 +81,64 @@ function postUser(data){
 };
 
 function postDeleteUser(data){
-   let xhr = new XMLHttpRequest();
-   let url = "/admin/delete"
+   fetch("/admin/delete",{
+       method: "DELETE",
+       body:data,
+       headers:{"Content-Type": "application/json"},
+    }).then( response => {
+       if ($(".ar:not(:checked)").length === $(".ar").length || response.status === 405 || response.status === 500){
+           toastr.options.positionClass = "toast-bottom-right";
+           toastr.error("Error");
+           return false;
+       } else if (response.status === 200) {
+           toastr.options.positionClass = "toast-bottom-right";
+           toastr.success("User delete");
+           update();
+       }
+   })
 
-   xhr.open("DELETE", url, true);
-
-   xhr.setRequestHeader("Content-Type", "application/json")
-
-   xhr.send(data);
-   update();
 };
 
 function postStatus(data){
-    let xhr = new XMLHttpRequest();
-    let url = "/admin/status"
 
-    xhr.open("PATCH", url, true);
-
-    xhr.setRequestHeader("Content-Type", "application/json")
-
-    xhr.send(data);
-    update();
+    fetch("/admin/status",{
+        method: "PATCH",
+        body:data,
+        headers:{"Content-Type": "application/json"},
+    }).then( response => {
+        if ($(".ar:not(:checked)").length === $(".ar").length || response.status === 405 || response.status === 500){
+            toastr.options.positionClass = "toast-bottom-right";
+            toastr.error("Error");
+            return false;
+        } else if (response.status === 200) {
+            toastr.options.positionClass = "toast-bottom-right";
+            toastr.success("User status changed");
+            update();
+        }
+    });
 };
 
 function postRole(data){
-  let xhr = new XMLHttpRequest();
-  let url = "/admin/role"
 
-  xhr.open("PATCH", url, true);
-
-  xhr.setRequestHeader("Content-Type", "application/json")
-
-  xhr.send(data);
-  update();
+    fetch("/admin/role",{
+        method: "PATCH",
+        body:data,
+        headers:{"Content-Type": "application/json"},
+    }).then( response => {
+        if ($(".ar:not(:checked)").length === $(".ar").length || response.status === 405 || response.status === 500){
+            toastr.options.positionClass = "toast-bottom-right";
+            toastr.error("Error");
+            return false;
+        } else if (response.status === 200) {
+            toastr.options.positionClass = "toast-bottom-right";
+            toastr.success("User role changed");
+            update();
+        }
+    });
 };
 
 function update(){
     setTimeout(function(){
 	    location.reload();
-    }, 1000);
+    }, 3000);
 }
