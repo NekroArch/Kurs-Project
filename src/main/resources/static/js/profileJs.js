@@ -245,13 +245,15 @@ function postDeleteCollection(data) {
 };
 
 function postCreateCollection(data) {
+  let modalFade = document.getElementById("collectionContext");
 
   fetch("/profile/createCollection",{
     method: "POST",
     body:data,
     headers:{"Content-Type": "application/json"},
   }).then( response => {
-    if (data.name === undefined || data.description === undefined || data.topic === undefined || response.status === 405 || response.status === 500) {
+    if (modalFade.getElementsByTagName("input")[0].value === "" || modalFade.getElementsByTagName("input")[2].value === "" || 
+        modalFade.getElementsByTagName("input")[3].value === "" || response.status === 405 || response.status === 500) {
       toastr.options.positionClass = "toast-bottom-right";
       toastr.error("Error");
       return false;

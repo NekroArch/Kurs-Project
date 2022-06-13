@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -77,7 +79,10 @@ public class ProfileController {
 
     @PostMapping(value = "/createCollection")
     public void createCollection(@RequestBody CreateCollectionDto createCollectionDto){
+        if(!Objects.equals(createCollectionDto.getName(), "") && !Objects.equals(createCollectionDto.getTopic(), "") &&
+           !Objects.equals(createCollectionDto.getDescription(), "")){
         collectionService.save(createCollectionDto);
+        }
     }
 
     @PostMapping(value = "/createItem")
