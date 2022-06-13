@@ -1,10 +1,9 @@
 package com.example.task5.controller;
 
+import com.example.task5.dto.CollectionDto;
 import com.example.task5.dto.UserDto;
-import com.example.task5.repository.UserRepository;
+import com.example.task5.repository.CollectionRepository;
 import com.example.task5.service.CollectionService;
-import com.example.task5.service.UserService;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 @RequestMapping
@@ -45,4 +44,10 @@ public class MainController {
             ));
         }
     }
+
+    @GetMapping(value = "/getColl")
+    public List<CollectionDto> createItem(){
+        return collectionService.getCollectionByUserId(1);
+    }
+
 }

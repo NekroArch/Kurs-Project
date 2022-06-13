@@ -1,0 +1,26 @@
+version: '3.1'
+
+
+
+services:
+#  postgres:
+#      image: postgres:latest
+#      restart: always
+#      ports:
+#        - 5432:5432
+#      environment:
+#        - POSTGRES_USER=postgres
+#        - POSTGRES_PASSWORD=19203856
+#        - POSTGRES_DB=task5
+#        - POSTGRES_HOST_AUTH_METHOD=trust
+  liquibase:
+      image: liquibase/liquibase
+      command: --url=jdbc:postgresql://l-db:5432/task5?user=postgres&password=postgres --changeLogFile=db.changelog-master.xml update
+      volumes:
+        - ./src/main/resources/db/changelog/db.changelog-master.xml:/liquibase/db.changelog-master.xml
+        - ./src/main/resources/db/changelog/db.changelog-init-db.xml:/liquibase/db.changelog-init-db.xml
+        - ./src/main/resources/db/changelog/db.changelog-init-default-rows.xml:/liquibase/db.changelog-init-default-rows.xml
+      networks:
+        - net
+networks:
+    net:
