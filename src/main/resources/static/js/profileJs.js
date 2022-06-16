@@ -253,10 +253,12 @@ function postCreateCollection(data) {
     headers:{"Content-Type": "application/json"},
   }).then( response => {
     if (modalFade.getElementsByTagName("input")[0].value === "" || modalFade.getElementsByTagName("input")[2].value === "" || 
-        modalFade.getElementsByTagName("input")[3].value === "" || response.status === 405 || response.status === 500) {
+        modalFade.getElementsByTagName("input")[3].value === ""){
+        toastr.options.positionClass = "toast-bottom-right";
+        toastr.warning("You must to fill in the form fields!");
+      }else if (response.status === 405 || response.status === 500) {
       toastr.options.positionClass = "toast-bottom-right";
       toastr.error("Error");
-      return false;
     } else if (response.status === 200) {
       toastr.options.positionClass = "toast-bottom-right";
       toastr.success("Collection created");

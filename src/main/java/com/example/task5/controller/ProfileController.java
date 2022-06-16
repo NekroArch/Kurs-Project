@@ -87,11 +87,15 @@ public class ProfileController {
 
     @PostMapping(value = "/createItem")
     public void createItem(@RequestBody ArrayList<CreateItemDto> createItemDto){
-        createItemDto.forEach(x -> itemService.createItem(x.getName(), x.getCollectionId(), x.getTagName(), x.getItemAttributeNameDto(), x.getItemAttributeValueDto()));
+        createItemDto.stream()
+                .filter(x -> !Objects.equals(x.getName(), "") && !Objects.equals(x.getTagName(), ""))
+                .forEach(x -> itemService.createItem(x.getName(), x.getCollectionId(), x.getTagName(), x.getItemAttributeNameDto(), x.getItemAttributeValueDto()));
     }
 
     @DeleteMapping(value = "/deleteCollection")
     public void deleteCollection(@RequestBody ArrayList<Integer> id){
-        id.forEach(x -> collectionService.deleteCollection(x));
+        if(!Objects.equals(id, null)){
+            id.forEach(x -> collectionService.deleteCollection(x));
+        }
     }
 }
