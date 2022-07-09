@@ -1,0 +1,129 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+
+<head>
+    <title tiles:fragment="title">Search</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" id="theme-link">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
+</head>
+
+<body onload="switchBtnColor()">
+<nav class="navbar navbar-expand-sm">
+    <button type="submit" id="btnTheme" onClick="applyTheme(), switchBtnColor()" class="btn-sm btn">Dark</button>
+
+    <div class="nav navbar-nav text-center">
+        <div class="col-12 search-form">
+            <input class="form-control" type="search">
+            <button type="submit" id="searchBtn" class="btn-sm btn" onclick="searchJs()">search</button>
+        </div>
+    </div>
+
+    <div class="collapse navbar-collapse " id="navbarNavDropdown" >
+
+        <ul class="nav navbar-nav ml-sm-auto" th:if="${anonymousUser}">
+            <a class="nav-item nav-link" href="/register"> Sign Up</a>
+            <a class="nav-item nav-link" href="/login"> Login</a>
+        </ul>
+        <ul class="nav navbar-nav ml-sm-auto" th:if="${userName}">
+            <a class="nav-link dropdown-toggle" href="#" sid="navbarDropdownMenuLink" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false" th:utext="${userName.name}">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="/profile/">Profile</a>
+                <a class="dropdown-item" href="#">Ru</a>
+                <a class="dropdown-item" th:if="${userName.role == 'ROLE_ADMIN'}" onclick="adminPage()">Admin Panel</a>
+                <a class="dropdown-item" href="/logout">Log out</a>
+            </div>
+
+        </ul>
+    </div>
+</nav>
+
+
+<div tiles:fragment="content">
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th scope="col">Name</th>
+            <th scope="col">Image</th>
+            <th scope="col">Description</th>
+            <th scope="col">Topic</th>
+            <th scope="col">Items</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody id="table">
+        <tr th:each="collection : ${collectionDto}">
+
+            <td id="tableNameButton">
+                <button class="btn " id="collectionNameBtn" th:utext="${collection.name}" data-toggle="modal"
+                        data-target="#itemModel1"></button>
+            <td>
+                <img id="imageUrl" th:src="${collection.imageUrl}">
+            </td>
+            <td id="description">
+                <div  th:utext="${collection.description}"></div>
+            </td>
+            <td id="topic">
+                <div  th:utext="${collection.topic}"></div>
+            </td>
+            <td id="itemButton">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Item</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="text">
+
+                    <button class="dropdown-item" href="#" th:each="item : ${collection.items}" data-toggle="modal"
+                            data-target="#tagModel" id="itemNameBtn">
+                        <div class="itemName" th:utext="${item.name}"></div>
+                        <div class="tags" th:each="tag : ${item.tags}" th:utext="${tag.name}" hidden></div>
+                        <div class="itemAttribute" th:each="itemAttribute: ${item.attributes}" hidden>
+                            <div class="attributeContext" th:each="attribute : ${collection.attributes}"hidden>
+
+                                <div class="ItemAttributeMerg" th:if="${itemAttribute.attribute_id == attribute.id}">
+                                    <div class="attributeValue" th:utext="${itemAttribute.value}"></div>
+                                    <div class="attributeName" th:utext="${attribute.attributeName}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="modal fade" id="tagModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form id="itemModalContext2">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="$(this).find('form').trigger('reset');">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </td>
+            <td>
+                <div th:utext="${collection.id}" style="display: none;"></div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script th:src="@{/js/inputJs.js}"></script>
+<script th:src="@{/js/themeJs.js}"></script>
+<script th:src="@{/js/profileJs.js}"></script>
+<script th:src="@{/js/searchJs.js}"></script>
+</body>
+
+</html>

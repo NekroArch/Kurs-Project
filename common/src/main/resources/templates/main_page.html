@@ -1,0 +1,99 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" id="theme-link">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm ">
+
+        <button type="submit" id="btnTheme" onClick="applyTheme()" class="btn-sm btn fclass">Dark</button>
+
+        <div class="nav navbar-nav text-center d-flex align-items-center fclass">
+            <div class="col-12 search-form d-flex align-items-center">
+                <input class="form-control" type="search">
+                <button type="submit" id="searchBtn" class="btn-sm btn" onclick="searchJs()">search</button>
+            </div>
+        </div>
+
+        <button class="navbar-toggler fclass" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+            <div class="collapse navbar-collapse  fclass" id="navbarNavDropdown" >
+
+                <ul class="nav navbar-nav ml-sm-auto" th:if="${anonymousUser}">
+                    <a class="nav-item nav-link" href="/register"> Sign Up</a>
+                    <a class="nav-item nav-link" href="/login"> Login</a>
+                </ul>
+                <ul class="nav navbar-nav ml-sm-auto" th:if="${userName}">
+                    <a class="nav-link dropdown-toggle" href="#" sid="navbarDropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" th:utext="${userName.name}">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/profile/">Profile</a>
+                        <a class="dropdown-item" href="#">Ru</a>
+                        <a class="dropdown-item" th:if="${userName.role == 'ROLE_ADMIN'}" onclick="adminPage()">Admin Panel</a>
+                        <a class="dropdown-item" href="/logout">Log out</a>
+                    </div>
+
+                </ul>
+            </div>
+    </nav>
+    <div>
+        <div class="imageText">Last added collections</div>
+        <div class="imagePrev" id="imagePrev" th:each="collectionImg : ${collectionImg}" data-toggle="modal"
+             data-target="#tagModel">
+            <img class="image" th:src="${collectionImg.imageUrl}">
+            <figcaption class="imageText" th:utext="${collectionImg.name}"></figcaption>
+                <div th:each="item : ${collectionImg.items}" hidden>
+                    <div class="itemName" th:utext="${item.name}" ></div>
+                    <div class="tags" th:each="tag : ${item.tags}" th:utext="${tag.name}" ></div>
+                    <div class="itemAttribute" th:each="itemAttribute: ${item.attributes}" >
+                        <div class="attributeContext" th:each="attribute : ${collectionImg.attributes}"hidden>
+                            <div class="ItemAttributeMerg" th:if="${itemAttribute.attribute_id == attribute.id}"hidden>
+                                <div class="attributeValue" th:utext="${itemAttribute.value}"hidden></div>
+                                <div class="attributeName" th:utext="${attribute.attributeName}"hidden></div>
+                            </div>
+                            <div class="ItemAttributeMerg" th:if="${itemAttribute.attribute_id != attribute.id}"hidden>
+                                <div class="attributeValue" hidden>1</div>
+                                <div class="attributeName" hidden>1</div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="tagModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form id="itemModalContext">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeBtn" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/themeJs.js}"></script>
+    <script th:src="@{/js/mainJs.js}"></script>
+    <script th:src="@{/js/searchJs.js}"></script>
+    <script th:src="@{/js/inputJs.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+</body>
+
+</html>

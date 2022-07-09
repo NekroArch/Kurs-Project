@@ -1,0 +1,62 @@
+body, button#nameBtn{
+  color: black;
+  background: #FAFAFA;
+}
+nav{
+  background: #FFFFFF;
+}
+.nav-link{
+  color: black;
+}
+.navbar-toggler-icon{
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+button#btnTheme{
+  background: #FFFFFF;
+}
+.container{
+  margin-top: 50px;
+  width: 500px;
+}
+
+.form-signin-heading{
+  margin-bottom: 20px;
+}
+
+.table{
+  margin-top: 50px;
+}
+
+.image{
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+}
+.imagePrev{
+  margin-top: 2%;
+  margin-left: 8%;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.imageText{
+  margin-top: 2%;
+  margin-left: 2%;
+}
+#frontId{
+  display: none;
+}
+
+#temp{
+  display: none;
+}
+
+#tableCheckbox, #tableNameButton, #itemButton, #topic, #description{
+  vertical-align: middle;
+}
+
+
+#imageUrl{
+  width: 100px;
+  height: 100px;
+}
